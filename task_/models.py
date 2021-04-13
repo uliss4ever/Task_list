@@ -22,11 +22,13 @@ class Task(models.Model):
     def __str__(self):
         return self.title
 
-class Comments(models.Model):
+class Comment(models.Model):
     text = models.TextField(max_length=500)
-    public = models.BooleanField(default=False) # для публичных заметок (??)
     date_add = models.DateTimeField(default=datetime.today())
-    # user = models.ForeignKey(User, on_delete=models.PROTECT())
+    user = models.ForeignKey(User, on_delete=models.PROTECT)
+    task_id = models.ForeignKey(Task, on_delete=models.CASCADE, related_name='comments')
 
     def __str__(self):
         return self.text
+
+    
