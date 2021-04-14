@@ -16,10 +16,14 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
+from about.views import About
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/v1/task/', include('task_.urls')),
     path('api/v1/auth/', include('djoser.urls')),
-    path('api/v1/auth-token/', include('djoser.urls.authtoken'))
+    path('api/v1/auth-token/', include('djoser.urls.authtoken')),
+    path('about/', About.as_view()),
+    path('base-auth/', include('rest_framework.urls')),
 
 ]
