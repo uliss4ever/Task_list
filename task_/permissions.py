@@ -7,7 +7,7 @@ class IsOwnerOrReadOnly(permissions.BasePermission):
             return True
         else:
             return obj.user == request.user
-
+# для выполнения п.2 ТЗ
 
 # class IsCommentPost(permissions.BasePermission):
 #     def has_object_permission(self, request, view, obj):

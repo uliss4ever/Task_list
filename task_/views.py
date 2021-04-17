@@ -37,9 +37,32 @@ class TaskItemView(APIView):   # работаем с имеющейся запи
 
 class TaskListView(APIView):    # в дженериках - отдельный класс "создать" и в нём только метод post
     def get(self, request, **kwargs):
-        tasks = Task.objects.all().order_by('-important', '-date_add')
+        # tasks = Task.objects.all().order_by('-important', '-date_add')
+        tasks = Task.objects.filter(public=True).order_by('-important', '-date_add')
 
-        query_params = QuerySerializer(data=request.query_params)
+        query_params = QuerySerializer(data=request.query_params, partial=True)
+        if query_params.is_valid():
+            if query_params.data.get('important'):
+                tasks = tasks.filter(important=query_params.data.get('important'))
+            if query_params.data.get('public'):
+                tasks = tasks.filter(public=query_params.data.get('public'))
+            if query_params.data.get('task_types'):
+                task_types = get_object_or_404(TaskType, name=query_params.data.get('task_types'))
+                if task_types:
+                    tasks = tasks.filter(task_types=task_types.id)
+        else:
+            return Response(query_params.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+        serializer = TaskListSerializer(tasks, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class TaskOwnerListView(APIView):    # в дженериках - отдельный класс "создать" и в нём только метод post
+    def get(self, request, **kwargs):
+        tasks = Task.objects.filter(user=request.user).order_by('-important', '-date_add')
+
+        query_params = QuerySerializer(data=request.query_params, partial=True)
         if query_params.is_valid():
             if query_params.data.get('important'):
                 tasks = tasks.filter(important=query_params.data.get('important'))

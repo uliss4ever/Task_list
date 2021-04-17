@@ -12,37 +12,37 @@
 {% block content %}
     <div class="container">
         <p></p>
-        <p>
-            <b>Username: <a href="{% url 'djoser:auth' %}">{{ username }}</a></b>
-        </p>
+
         <p>
             <b>Server version: <span style="color: darkred">{{ server_version }}</span></b>
         </p>
 
 
         <p>
-            <b>- <a href="/api/v1/auth/users">api/v1/auth/users</a></b>
+            <b>- <a href="{% url 'rest_framework:login' %}">api/v1/base-auth/login</a></b>
             (графическая авторизация);
         </p>
         <p>
-            <b>- <a href="/api/v1/auth-token/token/login">api/v1/auth-token/token/login</a></b>
-            (принимает поля "username" и "password");
+            <b>- <a href="{% url 'rest_framework:logout' %}">api/v1/base-auth/logout</a></b>
+            (графическая авторизация);
+        </p>
+
+
+
+        <p>
+            <b>- <a href="{% url 'task:public' %}">api/v1/task/public</a></b>
         </p>
         <p>
-            <b>- <a href="/api/v1/auth-token/token/logout">api/v1/auth-token/token/logout</a></b>
-            (принимает поле "username")
+            <b>- <a href="{% url 'task:owner' %}">api/v1/task/owner</a></b>
         </p>
         <p>
-            <b>- <a href="/api/v1/task/all">api/v1/task/all</a></b>
+            <b>- <a href="{% url 'task:create' %} ">api/v1/task/create/task</a></b>
         </p>
         <p>
-            <b>- <a href="/api/v1/task/create/task">api/v1/task/create/task</a></b>
+            <b>- <a href="{% url 'task:comment' %}">api/v1/task/create/comment</a></b>
         </p>
         <p>
-            <b>- <a href="/api/v1/task/create/comment">api/v1/task/create/comment</a></b>
-        </p>
-        <p>
-            <b>- <a href="/api/v1/task/details/">api/v1/task/details</a></b>
+            <b>- <a href="{% url 'task:details' 1 %}">api/v1/task/details</a></b>
         </p>
 
 

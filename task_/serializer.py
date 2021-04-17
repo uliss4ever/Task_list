@@ -47,6 +47,6 @@ class TaskCreateSerializer(serializers.ModelSerializer):
         exclude = ["date_add", "task_types", ]
 
 class QuerySerializer(serializers.Serializer):
-    important = serializers.BooleanField()
-    public = serializers.BooleanField()
+    important = serializers.BooleanField(required=False)
+    public = serializers.BooleanField(required=False)
     task_types = serializers.SlugRelatedField(slug_field='name', queryset=TaskType.objects.all(), required=False)
