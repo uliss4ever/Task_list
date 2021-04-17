@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.shortcuts import render, get_object_or_404
 from rest_framework.exceptions import NotFound
 from rest_framework.permissions import IsAuthenticated
@@ -70,6 +72,7 @@ class CommentCreateView(APIView):
 
     def post(self, request):
         data = request.data
+        data['date_add'] = datetime.today()
         serializer = CommentCreateSerializer(data=data, context={'request':request})
         if serializer.is_valid():
             serializer.save()

@@ -13,7 +13,7 @@
     <div class="container">
         <p></p>
         <p>
-            <b>Username: <a href="/api/v1/auth/users/me">{{ username }}</a></b>
+            <b>Username: <a href="{% url 'djoser:auth' %}">{{ username }}</a></b>
         </p>
         <p>
             <b>Server version: <span style="color: darkred">{{ server_version }}</span></b>

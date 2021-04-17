@@ -23,7 +23,7 @@ urlpatterns = [
     path('api/v1/task/', include('task_.urls')),
     path('api/v1/auth/', include('djoser.urls')),
     path('api/v1/auth-token/', include('djoser.urls.authtoken')),
-    path('about/', About.as_view()),
+    path('about/', About.as_view(), name='about'),
     path('base-auth/', include('rest_framework.urls')),
 
 ]
