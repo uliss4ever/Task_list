@@ -44,7 +44,7 @@ class Comment(models.Model):
     text = models.TextField(max_length=500)
     date_add = models.DateTimeField(default=datetime.now)
     user = models.ForeignKey(User, on_delete=models.PROTECT)
-    task_id=models.ForeignKey(Task, on_delete=models.CASCADE, related_name='comments') # TODO поменять имя на task (везде)
+    task=models.ForeignKey(Task, on_delete=models.CASCADE, related_name='comments') # TODO поменять имя на task (везде)
 
     def __str__(self):
         return self.text

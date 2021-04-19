@@ -47,9 +47,7 @@ class TaskListView(APIView):    # в дженериках - отдельный �
             if query_params.data.get('public'):
                 tasks = tasks.filter(public=query_params.data.get('public'))
             if query_params.data.get('task_types'):
-                task_types = get_object_or_404(TaskType, name=query_params.data.get('task_types'))
-                if task_types:
-                    tasks = tasks.filter(task_types=task_types.id)
+                tasks = tasks.filter(task_types=query_params.data.get('task_types'))
         else:
             return Response(query_params.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -69,9 +67,8 @@ class TaskOwnerListView(APIView):    # в дженериках - отдельн�
             if query_params.data.get('public'):
                 tasks = tasks.filter(public=query_params.data.get('public'))
             if query_params.data.get('task_types'):
-                task_types = get_object_or_404(TaskType, name=query_params.data.get('task_types'))
-                if task_types:
-                    tasks = tasks.filter(task_types=task_types.id)
+                tasks = tasks.filter(task_types=query_params.data.get('task_types'))
+
         else:
             return Response(query_params.errors, status=status.HTTP_400_BAD_REQUEST)
 
