@@ -13,14 +13,14 @@ from .permissions import IsOwnerOrReadOnly
 from .serializer import *
 
 class TaskItemView(APIView):   # работаем с имеющейся записью (получение, удаление, изменение)
-    permission_classes = [IsOwnerOrReadOnly]
+    permission_classes = [IsOwnerOrReadOnly, IsAuthenticated] # permission_classes - поле класса ApiView
     def get(self, request, pk):
         task = get_object_or_404(Task, id=pk)
         serializer = TaskItemSerializer(task)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def put(self, request, pk):
-        task = get_object_or_404(Task.objects.filter(id=pk))
+        task = get_object_or_404(Task, id=pk)
         change_task = TaskItemSerializer(instance=task, data=request.data, partial=True)
         if change_task.is_valid():  # из модели
             change_task.save()
@@ -29,13 +29,14 @@ class TaskItemView(APIView):   # работаем с имеющейся запи
             return Response(change_task.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, pk):
-        task = get_object_or_404(Task.objects.filter(id=pk))
+        task = get_object_or_404(Task, id=pk)
         task.delete()
         return Response(pk, status=status.HTTP_200_OK)
 
 
 
 class TaskListView(APIView):    # в дженериках - отдельный класс "создать" и в нём только метод post
+    # permission_classes = [IsAuthenticated] если хотим чтобы пользователи были зарегистрированы
     def get(self, request, **kwargs):
         # tasks = Task.objects.all().order_by('-important', '-date_add')
         tasks = Task.objects.filter(public=True).order_by('-important', '-date_add')
@@ -57,6 +58,7 @@ class TaskListView(APIView):    # в дженериках - отдельный �
 
 
 class TaskOwnerListView(APIView):    # в дженериках - отдельный класс "создать" и в нём только метод post
+    permission_classes = [IsAuthenticated] # пользователь дожен быть зарегистрирован, чтобы получить его username
     def get(self, request, **kwargs):
         tasks = Task.objects.filter(user=request.user).order_by('-important', '-date_add')
 
